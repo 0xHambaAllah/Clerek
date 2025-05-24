@@ -5,7 +5,7 @@ Clerek By BILL
 
    ```pkg update -y && pkg upgrade -y && pkg install -y python unzip unrar p7zip && termux-setup-storage```
 4. Setelah itu jalankan perintah berikut
-   ```git clone```
+   ```git clone https://github.com/0xHambaAllah/Clerek```
 5. Terakhir jalankan perintah berikut
    `echo "alias clerek='python ~/clerek.py'" >> ~/.bashrc
 source ~/.bashrc`
