@@ -20,6 +20,7 @@ def tampilkan_header():
  ░       ░      ░  ░    ░  ░
       ░                     
 ALFAMART PEDULI | SCRIPT BY BILL
+    -= [ 0851 8666 0986 ]=-
 ________________________________
     """
     print(f"{GREEN}{header}{RESET}")
