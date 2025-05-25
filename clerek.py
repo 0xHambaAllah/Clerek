@@ -32,7 +32,7 @@ def arsip_berisi_db(tool, filepath):
     except:
         return False
 
-def periksa_dan_ekstrak_arsip(download_path='/storage/emulated/0/Download'):
+def periksa_dan_ekstrak_arsip(download_path=EKSTRAK_DIR):
     for dirpath, _, filenames in os.walk(download_path):
         for file in filenames:
             path_file = os.path.join(dirpath, file)
@@ -59,7 +59,14 @@ def cari_semua_db_di_folder(path):
     return hasil
 
 def cari_file_db_lokal():
-    return cari_semua_db_di_folder('/storage/emulated/0/Download')
+    jalur_utama = [
+        '/storage/emulated/0/Download',
+        '/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Documents'
+    ]
+    hasil = []
+    for path in jalur_utama:
+        hasil.extend(cari_semua_db_di_folder(path))
+    return hasil
 
 def tampilkan_menu_file(file_list):
     print(f"{GREEN}\nDitemukan beberapa file database:{RESET}")
@@ -78,7 +85,7 @@ def jalankan_query(db_path):
         SELECT date_tx, user_id FROM tx_tsale ORDER BY rowid LIMIT 1
       ),
       total_value AS (
-        SELECT CAST(ROUND(SUM(total_faktur - discount - card - voucher - cash_out - wallet - refund + charity + nom_topup)) AS INTEGER) AS total
+        SELECT CAST(ROUND(SUM(total_faktur - discount - card - voucher - cash_out - wallet - refund - ol_payment + charity + nom_topup)) AS INTEGER) AS total
         FROM tx_tsale
       ),
       formatted_total AS (
@@ -121,11 +128,30 @@ def jalankan_query(db_path):
         if conn:
             conn.close()
 
+    try:
+        os.remove(db_path)
+        print(f"{GREEN}File database dihapus: {db_path}{RESET}")
+    except Exception as e:
+        print(f"Gagal menghapus file: {e}")
+
+def hapus_arsip(path_root):
+    for dirpath, _, filenames in os.walk(path_root):
+        for file in filenames:
+            if file.lower().endswith(('_android.zip', '_android.rar', '_android.7z')):
+                try:
+                    os.remove(os.path.join(dirpath, file))
+                    print(f"{GREEN}File arsip dihapus: {file}{RESET}")
+                except Exception as e:
+                    print(f"Gagal menghapus arsip: {e}")
+
 def main():
     tampilkan_header()
     print("Memindai arsip (_android.zip/rar/7z) dan mengekstrak jika berisi .db...")
     periksa_dan_ekstrak_arsip()
-    print("Mencari file .db di penyimpanan lokal Download...")
+    print("Menghapus file arsip...")
+    hapus_arsip('/storage/emulated/0/Download')
+
+    print("Mencari file .db di penyimpanan lokal...")
     file_list = cari_file_db_lokal()
 
     if not file_list:
