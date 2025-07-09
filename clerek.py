@@ -85,7 +85,7 @@ def jalankan_query(db_path):
         SELECT date_tx, user_id FROM tx_tsale ORDER BY rowid LIMIT 1
       ),
       total_value AS (
-        SELECT CAST(ROUND(SUM(total_faktur - discount - card - voucher - cash_out - wallet - refund - ol_payment + charity + nom_topup)) AS INTEGER) AS total
+        SELECT CAST(ROUND(SUM(total_faktur - discount - card - voucher - cash_out - wallet - refund - ol_payment + charity)) AS INTEGER) AS total
         FROM tx_tsale
       ),
       formatted_total AS (
