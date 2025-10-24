@@ -9,7 +9,9 @@ Clerek By BILL
 5. Terakhir jalankan perintah berikut
    `echo "alias clerek='python ~/Clerek/clerek.py'" >> ~/.bashrc
 source ~/.bashrc`
-6. Selanjutnya untuk menjalankan tinggal ketika `clerek`
+
+6. Masukan perintah nano config.py dan rubah email anda, app password anda dan email pengirim untuk filter inbox
+7. Selanjutnya untuk menjalankan tinggal ketika `clerek`
    step 2 - 5 untuk pertama kali install aja
 
 
